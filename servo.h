@@ -12,6 +12,9 @@
 #include "timer.h"
 #include "math.h"
 #include "stdio.h"
+#include "uart.h"
+#include "sonar.h"
+#include "ir.h"
 
 void TIMER3B_Handler(void);
 

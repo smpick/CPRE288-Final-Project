@@ -70,41 +70,13 @@ void uart_sendChar(char data){
 //returns char with data
 char uart_receive(void){
     char data = 0;
-    int button;
+
      //wait to receive
-     while(UART1_FR_R & UART_FR_RXFE)
-    {
-         if (button != button_getButton()) {       //if a button is being pressed, go through this loop
-                     button = button_getButton();
-                     if (button == 6) {
-                         lcd_printf("Yes");
-                         uart_sendStr("Yes");
-                     }
-                     if (button == 5) {
-                                     lcd_printf("No");
-                                     uart_sendStr("No");
-                                 }
-                     if (button == 4) {
-                                     lcd_printf("Blue, no green, Ahhhhh!!!");
-                                     uart_sendStr("Blue, no green, Ahhhhh!!!");
-                                 }
-                     if (button == 3) {
-                                     lcd_printf("Shelby is cool.");
-                                     uart_sendStr("Shelby is cool.");
-                                 }
-                     if (button == 2) {
-                                     lcd_printf("Amos is cool too.");
-                                     uart_sendStr("Amos is cool too.");
-                                 }
-                     if (button == 1) {
-                                     lcd_printf("2cooL4U");
-                                     uart_sendStr("2cooL4U");
-                                 }
-                 }
-    }
+     while(UART1_FR_R & UART_FR_RXFE) {
+         //wait to receive character
+     }
     //mask the 4 error bits and grab only 8 data bits
     data = (char)(UART1_DR_R & 0xFF);
-
     return data;
 }
 

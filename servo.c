@@ -79,7 +79,10 @@ void TIMER1_init(void){
 }
 
 void servo_sweep(void) {
-
+    TIMER1_init();      //initializes servo motor
+    clock_init();       //initializes servo clock
+    sonar_init();
+    ir_init();
     /* STEP ONE: Rotate Servo around from 0 to 180 */
     int clockDeg = 6500;   //clock ticks for 0 degrees
     int degrees = 0;       //actual degree value
@@ -88,10 +91,11 @@ void servo_sweep(void) {
             degrees = 0;
         }
         if (degrees >= 180) {       //180 degree limit
-            degrees = 0;
+            degrees = 180;
         }
+        degrees++;
         TIMER1_TBMATCHR_R = (320000 - clockDeg);
-        timer_waitMillis(125);
+        timer_waitMillis(200);
 
         /* STEP TWO: Use IR to detect objects */
         int quantization;
@@ -113,7 +117,7 @@ void servo_sweep(void) {
         send_pulse();
         if (flag == 2) {    //volatile variable
             dist = (current_Event - last_Event)*0.0010625;
-            sprintf(string, "\n%-24d %-16d", irDistance, dist);
+            sprintf(string, "\n%-24d %-16d %d", irDistance, dist, degrees*2);
             uart_sendStr(string);
         }
         flag = 0;
